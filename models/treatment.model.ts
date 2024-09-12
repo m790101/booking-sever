@@ -11,7 +11,11 @@ import  { DataTypes } from 'sequelize';
   name: {
     type: DataTypes.STRING,
   },
-});
+},
+{
+  timestamps: false,
+},
+);
 
 
 
