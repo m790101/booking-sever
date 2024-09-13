@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.DataTypes.DATE,
         allowNull:false
       },
-      time_slot: {
+      time_slot_id: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: {
@@ -24,7 +24,7 @@ module.exports = {
         },
         allowNull: false,
       },
-      room: {
+      room_id: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: {
