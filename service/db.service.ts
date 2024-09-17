@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 import dotenv from "dotenv";
+import pg from "pg"
 dotenv.config();
 // const sequelize = new Sequelize('postgres://haowencheng:@localhost:5432/booking?sslmode=disable') // Example for postgres
 
