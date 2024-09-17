@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "installCommand": "npm install",
     "builds": [
      {
       "src": "src/app.ts",
@@ -12,6 +13,5 @@
           "src": "/(.*)",
           "dest": "src/app.ts"
         }
-      ],
-    "installCommand": "npm install"
+      ]
    }
