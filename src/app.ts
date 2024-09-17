@@ -12,7 +12,14 @@ const app = express();
 
 const PORT = process.env.PORT;
 
-app.use(cors())
+
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions))
 app.use(express.json());
 
 
