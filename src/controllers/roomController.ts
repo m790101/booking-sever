@@ -1,14 +1,24 @@
 import { Request, Response } from 'express';
-import sequelize from '../../service/db.service';
-import Room from '../../models/dto/room.model';
+import Room from '../../models/room.model';
 
 export default async function roomController(req: Request, res: Response) {
     try{
-        const room = await Room.findAll();
-        console.log(room)
-        // const [results, metadata] = await sequelize.query('SELECT name FROM room');
-        // res.status(200).send(results)
+        const rooms = await Room.findAll();
+        const roomDto = rooms.map((room:RoomDao)=>{
+            return {
+                name:room.name
+            }
+        })
+        res.status(200).send({roomList:roomDto})
     } catch (error: any) {
         res.status(500).send(error.message);
     }
+}
+
+
+
+
+interface RoomDao {
+    id:number
+    name:string
 }

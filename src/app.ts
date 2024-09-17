@@ -1,34 +1,32 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
+const cors = require('cors')
 
-const {router} = require("./controllers/routes/room");
-const { Sequelize } = require('sequelize');
+const {roomRouter} = require("./controllers/routes/room");
+const {reservationRouter} = require("./controllers/routes/reservation")
+const {treatmentRouter} = require("./controllers/routes/treatment")
+const {equipmentRouter} = require("./controllers/routes/equipment")
 
-// configures dotenv to work in your application
 dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT;
 
-
-// Export sequelize
-
-
-
-// try {
-//   sequelize.authenticate();
-//   console.log("Connection has been established successfully.");
-// } catch (error) {
-//   console.error("Unable to connect to the database:", error);
-// }
-
+app.use(cors())
+app.use(express.json());
 
 
 app.get("/", (req:Request, res:Response) => { 
   res.status(200).send("Hello World");
 }); 
 
-app.use(router);
+app.use(roomRouter);
+app.use(reservationRouter);
+app.use(treatmentRouter);
+app.use(equipmentRouter)
+
+
+
 
 app.listen(PORT, () => { 
   console.log("Server running at PORT: ", PORT); 

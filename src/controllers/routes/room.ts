@@ -2,9 +2,9 @@ import roomController from "../roomController";
 
 const { Router } = require("express");
 
-const router = new Router();
+const roomRouter = new Router();
 
-router.get("/api/v1/room", roomController)
+roomRouter.get("/api/v1/room", roomController)
 
 
-module.exports = { router };
+module.exports = { roomRouter };

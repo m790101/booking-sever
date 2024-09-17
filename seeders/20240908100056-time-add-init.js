@@ -5,7 +5,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('time_slot', [
       {
-        startTime:'9:30',
+        startTime:'09:30',
       },
       {
         startTime:'11:00',
