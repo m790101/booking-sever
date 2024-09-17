@@ -9,6 +9,7 @@ const sequelize = new Sequelize({
   database:'postgres',
   username:'postgres.vwsolxixsbjncvaztcyk',
   password:process.env.DB_PASSWORD,
+  dialectModule: pg,
   host: 'aws-0-ap-southeast-1.pooler.supabase.com',
   port:6543,
 });
