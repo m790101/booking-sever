@@ -12,10 +12,8 @@
         {
           "src": "/(.*)",
           "dest": "src/app.ts"
+
         }
-      ],
-      "rewrites": [
-        { "source": "/(.*)", "destination": "src/app.js" }
       ],
       "headers": [
         {
