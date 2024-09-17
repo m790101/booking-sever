@@ -8,12 +8,6 @@
       "config": { "includeFiles": ["dist/**"] }
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "src/app.ts"
-    }
-  ],
   "headers": [
     {
       "source": "src/app.ts/(.*)",
