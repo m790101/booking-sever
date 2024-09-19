@@ -4,6 +4,8 @@ import Room from "../../models/room.model";
 import TimeSlot from "../../models/timeSlot.model";
 import Treatment from "../../models/treatment.model";
 import { where } from "sequelize";
+import { ErrorCode } from "../utils/errorCode.enum";
+import errorHandle from "../utils/errorHandler";
 
 export default async function getReservationController(
   req: Request,
@@ -11,7 +13,6 @@ export default async function getReservationController(
 ) {
   try {
     const date = req.params.date
-    // const reservation = await Reservation.findAll({ where: { date: today } });
     const reservations = await Reservation.findAll({
       include: [
         {
@@ -38,10 +39,10 @@ export default async function getReservationController(
       treatment: reservation.dataValues.treatment.name,
       equipment: reservation.dataValues.equipment
     }));
-
     res.status(200).send(formattedReservations);
   } catch (error: any) {
-    console.log(error);
-    res.status(500).send(error.message);
+    const errorObject = errorHandle(ErrorCode.E002,error.message)
+    res.status(500).send(errorObject);
+
   }
 }
