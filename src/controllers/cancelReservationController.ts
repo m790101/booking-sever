@@ -5,6 +5,7 @@ import Reservation from '../../models/reservation.model';
 import sequelize from '../../service/db.service';
 import errorHandle from '../utils/errorHandler';
 import { ErrorCode } from '../utils/errorCode.enum';
+import { reservationCacheClear } from '../middleware/reservationCache';
 
 export default async function cancelReservationController(req: Request, res: Response) {
     try{
@@ -33,6 +34,7 @@ export default async function cancelReservationController(req: Request, res: Res
             },
           });
         
+          reservationCacheClear(data.date)
           return JSON.stringify('ok') 
         });
         res.status(200).send(result)

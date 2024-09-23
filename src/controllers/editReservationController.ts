@@ -6,6 +6,7 @@ import Treatment from "../../models/treatment.model";
 import sequelize from "../../service/db.service";
 import errorHandle from "../utils/errorHandler";
 import { ErrorCode } from "../utils/errorCode.enum";
+import { reservationCacheClear } from "../middleware/reservationCache";
 
 export default async function editReservationController(
   req: Request,
@@ -54,6 +55,7 @@ export default async function editReservationController(
         }
       );
 
+      reservationCacheClear(data.date)
       return newReservation;
     });
     res.status(200).send(result);

@@ -6,6 +6,7 @@ import Treatment from '../../models/treatment.model';
 import sequelize from '../../service/db.service';
 import errorHandle from '../utils/errorHandler';
 import { ErrorCode } from '../utils/errorCode.enum';
+import { reservationCacheClear} from '../middleware/reservationCache';
 
 export default async function addReservationController(req: Request, res: Response) {
     
@@ -44,6 +45,7 @@ export default async function addReservationController(req: Request, res: Respon
 
           return newReservation 
         });      
+        reservationCacheClear(data.date)
         res.status(200).send(result)
     } catch (error: any) {
         const errorObject = errorHandle(ErrorCode.E999,error)
