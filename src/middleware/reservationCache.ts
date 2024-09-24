@@ -1,4 +1,5 @@
 import redis from "../../service/db.redis";
+import { Request, Response ,RequestHandler} from "express";
 
 async function reservationCacheHandle(key: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -13,7 +14,7 @@ async function reservationCacheHandle(key: string): Promise<string> {
   });
 }
 
-async function reservationCacheClear(key: string ) {
+async function reservationCacheClear(key: string) {
   return new Promise<void>((resolve, reject) => {
     redis.del(key, (err, result) => {
       if (err) {
@@ -25,4 +26,9 @@ async function reservationCacheClear(key: string ) {
     });
   });
 }
-export { reservationCacheHandle , reservationCacheClear};
+const hashClearMiddleware:RequestHandler = async (req, res, next) => {
+  await next();
+  const date = req.body.date;
+  reservationCacheClear(date);
+};
+export { hashClearMiddleware,reservationCacheHandle, reservationCacheClear };

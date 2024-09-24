@@ -17,7 +17,6 @@ export default async function getReservationController(
     const reservationCache = await reservationCacheHandle(date);
     if (reservationCache) {
       res.status(200).send(JSON.parse(reservationCache));
-      console.log("cache");
       return;
     }
     const reservations = await Reservation.findAll({

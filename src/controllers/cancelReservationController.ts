@@ -34,7 +34,6 @@ export default async function cancelReservationController(req: Request, res: Res
             },
           });
         
-          reservationCacheClear(data.date)
           return JSON.stringify('ok') 
         });
         res.status(200).send(result)

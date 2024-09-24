@@ -45,7 +45,6 @@ export default async function addReservationController(req: Request, res: Respon
 
           return newReservation 
         });      
-        reservationCacheClear(data.date)
         res.status(200).send(result)
     } catch (error: any) {
         const errorObject = errorHandle(ErrorCode.E999,error)

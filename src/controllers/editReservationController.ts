@@ -55,7 +55,6 @@ export default async function editReservationController(
         }
       );
 
-      reservationCacheClear(data.date)
       return newReservation;
     });
     res.status(200).send(result);
