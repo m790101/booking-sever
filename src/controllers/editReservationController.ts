@@ -5,7 +5,7 @@ import Reservation from "../../models/reservation.model";
 import Treatment from "../../models/treatment.model";
 import sequelize from "../../service/db.service";
 import errorHandle from "../utils/errorHandler";
-import { ErrorCode } from "../utils/errorCode.enum";
+import { ErrorCode, ErrorMessage } from "../utils/errorCode.enum";
 import { reservationCacheClear } from "../middleware/reservationCache";
 
 export default async function editReservationController(
@@ -19,8 +19,7 @@ export default async function editReservationController(
       const roomInstance = await Room.findOne({ where: { name: data.room } });
 
       if (!roomInstance) {
-        const errorObject = errorHandle(ErrorCode.E002, "資料有誤，新增失敗");
-        return res.status(200).send(errorObject);
+          throw new Error(ErrorCode.E002)
       }
 
       const timeSlot = await TimeSlot.findOne({
@@ -28,8 +27,7 @@ export default async function editReservationController(
       });
 
       if (!timeSlot) {
-        const errorObject = errorHandle(ErrorCode.E002, "資料有誤，新增失敗");
-        return res.status(200).send(errorObject);
+          throw new Error(ErrorCode.E002)
       }
 
       const treatment = await Treatment.findOne({
@@ -37,8 +35,7 @@ export default async function editReservationController(
       });
 
       if (!treatment) {
-        const errorObject = errorHandle(ErrorCode.E002, "資料有誤，新增失敗");
-        return res.status(200).send(errorObject);
+          throw new Error(ErrorCode.E002)
       }
       const newReservation = await Reservation.update(
         {
@@ -59,8 +56,12 @@ export default async function editReservationController(
     });
     res.status(200).send(result);
   } catch (error: any) {
-    console.log(error)
-    const errorObject = errorHandle(ErrorCode.E999, error);
-    res.status(500).send(errorObject);
+    if (error.message === ErrorCode.E002) {
+      const errorObject = errorHandle(ErrorCode.E002, ErrorMessage.E002);
+      res.status(200).send(errorObject);
+    } else {
+      const errorObject = errorHandle(ErrorCode.E999, error);
+      res.status(500).send(errorObject);
+    }
   }
 }

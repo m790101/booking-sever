@@ -4,7 +4,7 @@ import TimeSlot from '../../models/timeSlot.model';
 import Reservation from '../../models/reservation.model';
 import sequelize from '../../service/db.service';
 import errorHandle from '../utils/errorHandler';
-import { ErrorCode } from '../utils/errorCode.enum';
+import { ErrorCode, ErrorMessage } from '../utils/errorCode.enum';
 import { reservationCacheClear } from '../middleware/reservationCache';
 
 export default async function cancelReservationController(req: Request, res: Response) {
@@ -15,15 +15,13 @@ export default async function cancelReservationController(req: Request, res: Res
           const roomInstance = await Room.findOne({ where: { name: data.room } });
         
           if (!roomInstance) {
-            const errorObject = errorHandle(ErrorCode.E002,'資料有誤')
-            return res.status(200).send(errorObject);
+          throw new Error(ErrorCode.E002)
           }
       
           const timeSlot = await TimeSlot.findOne({ where: { startTime: data.timeSlot } });
   
           if (!timeSlot) {
-            const errorObject = errorHandle(ErrorCode.E002,'資料有誤')
-            return res.status(200).send(errorObject);
+            throw new Error(ErrorCode.E002)
           }
   
           await Reservation.destroy({
@@ -38,7 +36,12 @@ export default async function cancelReservationController(req: Request, res: Res
         });
         res.status(200).send(result)
     } catch (error: any) {
-      const errorObject = errorHandle(ErrorCode.E999,error)
+    if (error.message === ErrorCode.E002) {
+      const errorObject = errorHandle(ErrorCode.E002, ErrorMessage.E002);
+      res.status(200).send(errorObject);
+    } else {
+      const errorObject = errorHandle(ErrorCode.E999, error);
       res.status(500).send(errorObject);
+    }
     }
 }
