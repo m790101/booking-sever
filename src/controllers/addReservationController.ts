@@ -6,7 +6,7 @@ import Treatment from "../../models/treatment.model";
 import sequelize from "../../service/db.service";
 import errorHandle from "../utils/errorHandler";
 import { ErrorCode, ErrorMessage } from "../utils/errorCode.enum";
-import { reservationCacheClear } from "../middleware/reservationCache";
+import { validationResult } from "express-validator";
 
 export default async function addReservationController(
   req: Request,
@@ -14,7 +14,6 @@ export default async function addReservationController(
 ) {
   try {
     const data = req.body;
-
     const result = await sequelize.transaction(async (t: any) => {
       const roomInstance = await Room.findOne({ where: { name: data.room } });
 
@@ -49,7 +48,7 @@ export default async function addReservationController(
       return newReservation;
     });
     res.status(200).send(result);
-  } catch (error:any) {
+  } catch (error: any) {
     if (error.message === ErrorCode.E002) {
       const errorObject = errorHandle(ErrorCode.E002, ErrorMessage.E002);
       res.status(200).send(errorObject);

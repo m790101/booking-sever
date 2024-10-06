@@ -1,5 +1,6 @@
+import moment from "moment";
 import redis from "../../service/db.redis";
-import { Request, Response ,RequestHandler} from "express";
+import { RequestHandler } from "express";
 
 async function reservationCacheHandle(key: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -26,9 +27,9 @@ async function reservationCacheClear(key: string) {
     });
   });
 }
-const hashClearMiddleware:RequestHandler = async (req, res, next) => {
+const hashClearMiddleware: RequestHandler = async (req, res, next) => {
   await next();
-  const date = req.body.date;
-  reservationCacheClear(date);
+  const yearMonth = moment(req.body.date).format("YYYY-MM");
+  reservationCacheClear(yearMonth);
 };
-export { hashClearMiddleware,reservationCacheHandle, reservationCacheClear };
+export { hashClearMiddleware, reservationCacheHandle, reservationCacheClear };
