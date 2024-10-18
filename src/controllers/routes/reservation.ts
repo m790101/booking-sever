@@ -6,6 +6,7 @@ import editReservationController from "../editReservationController";
 import getReservationController from "../getReservationController";
 import { addReservationValidator } from "../../validator/reservation.validator";
 import getMonthltyReservationController from "../getMonthlyReservationController";
+import getReservationMuti from "../getReservationMuti";
 
 const { Router } = require("express");
 
@@ -31,5 +32,6 @@ reservationRouter.post(
 reservationRouter.get("/api/v1/reservation/:date", getReservationController);
 reservationRouter.get("/api/v1/reservation", getReservationController);
 reservationRouter.post("/api/v1/reservation/month", getMonthltyReservationController);
+reservationRouter.post("/api/v1/reservation/muti", getReservationMuti);
 
 module.exports = { reservationRouter };
