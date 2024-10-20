@@ -32,4 +32,19 @@ const hashClearMiddleware: RequestHandler = async (req, res, next) => {
   const yearMonth = moment(req.body.date).format("YYYY-MM");
   reservationCacheClear(yearMonth);
 };
-export { hashClearMiddleware, reservationCacheHandle, reservationCacheClear };
+
+const hashClearMutiMiddleware: RequestHandler = async (req, res, next) => {
+  await next();
+  const monthSet = new Set();
+  const dateList = req.body.date;
+
+  dateList.forEach((date: string) => {
+    const yearMonth = moment(date).format("YYYY-MM");
+    monthSet.add(yearMonth);
+  });
+  monthSet.forEach((month: any) => {
+    reservationCacheClear(month);
+  });
+};
+
+export { hashClearMiddleware, reservationCacheHandle, reservationCacheClear, hashClearMutiMiddleware };
